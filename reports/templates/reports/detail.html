@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ object.name }}
+{% endblock title %}
+
+{% block content %}
+    <div id="alert-box"></div>
+    <div class="card border mb-3" style="min-width: 75%;">
+        <div class="card-header">{{ object.name }}</div>
+        <div class="card-body">
+            <p class="card-title fw-bold">User</p>
+            <p class="card-title">{{ object.get_author_name }}</p>
+            <p class="card-text">
+
+            <p class="fw-bold">Created</p>
+            <p class="fw-normal">
+                {{ object.created }} </p>
+            <p class="fw-bold">Result</p>
+            {% if object.result == 'FAKE' %}
+                <p class="text-danger fw-normal">
+                    {% else %}
+                <p class="text-success fw-normal">
+            {% endif %}
+            {{ object.result }} </p>
+            <p class="fw-bold">Deepfake Probability</p>
+            <p class="fw-normal">
+                {{ object.pred_mean }} </p>
+            <p class="fw-bold">Extracted Face</p>
+            <p>
+                {% if object.face_sample %}
+                    <img src="data:image/png;base64, {{ object.face_sample|safe }}" id='img' class="w-25 img-thumbnail"
+                         alt="{{ object.name }}">
+                {% endif %} </p>
+            <p class="fw-bold">No of Frames Extracted</p>
+            <p class="fw-normal">
+                {{ object.no_of_frames }} </p>
+            <p class="fw-bold">Frame prediction distribution</p>
+            <p>
+                {% if object.frame_pred_graph %}
+                    <img src="data:image/png;base64, {{ object.frame_pred_graph|safe }}" id='img'
+                         class="w-50 img-thumbnail"
+                         alt="{{ object.name }}">
+                {% endif %} </p>
+            <p class="fw-bold">Remarks</p>
+            <p class="fw-normal">
+                {{ object.remarks }} </p>
+            </p>
+        </div>
+    </div>
+    <a href="{% url 'reports:delete' object.pk %}" class="card-link">Delete</a>
+    <a href="{% url 'reports:pdf' object.pk %}" class="card-link">Save as PDF</a>
+{% endblock content %}

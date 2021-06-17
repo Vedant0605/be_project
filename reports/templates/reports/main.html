@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    reports
+{% endblock title %}
+
+{% block content %}
+    {% if no_data %}
+        <div class="alert alert-warning" role="alert">
+            {{ no_data }}
+        </div>
+    {% endif %}
+
+
+    <form class="form-inline mb-3">
+        <div class="form-control">{{ form }}<input class="btn-small btn-outline-primary btn-search m-3" type="submit"/></div>
+        {% csrf_token %}
+    </form>
+
+
+
+    </form>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+
+        {% for obj in object_list %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if obj.face_sample %}
+                        <img src="data:image/png;base64, {{ obj.face_sample|safe }}" id='img'
+                             class="img-thumbnail"
+                             alt="{{ obj.name }}">
+                    {% else %}
+                        <img src="{% static  'report.png' %}" class="card-img-top" alt="{{ obj.name }}">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ obj.name |truncatewords:5 }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ obj.author }}</h6>
+                        <p class="card-text">{{ obj.created }}</p>
+                        <a href="{{ obj.get_absolute_url }}" class="card-link">Details</a>
+                        <a href="{% url 'reports:pdf' obj.pk %}" class="card-link">Save as PDF</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    </div>
+
+
+{% endblock content %}

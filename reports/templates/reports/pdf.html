@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ object.name }}</title>
+    <style>
+        .image1 {
+            width: 150px;
+            height: auto;
+        }
+        .image2 {
+            width: 400px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>{{ object.name }}</h1>
+<p><b>File Name</b><br>{{ object.upload.file_name }}</p>
+<p><b>User</b><br>{{ object.get_author_name }}</p>
+<p><b>Created</b><br>{{ object.created }}</p>
+<p><b>Result</b><br>{{ object.result }} </p>
+<p><b>Deepfake Probability</b><br>{{ object.pred_mean }}</p>
+<p><b>Extracted Face</b><br><img src="data:image/png;base64, {{ object.face_sample|safe }}" class="image1"></p>
+<p><b>No of Frames Extracted</b><br>{{ object.no_of_frames }}</p>
+<p><b>Frame prediction distribution</b><br><img src="data:image/png;base64, {{ object.frame_pred_graph|safe }}" class="image2"></p>
+<p><b>Remarks</b><br> {{ object.remarks }}</p>
+</body>
+</html>
